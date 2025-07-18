@@ -4,6 +4,10 @@
 
 RoomRental is a comprehensive platform designed to streamline the process of finding and renting rooms/properties. It connects tenants seeking accommodation with landlords offering properties, featuring robust tools for listing, searching, communication, and payment management.
 
+For a quick visual overview of the database structure:
+![RoomRental ERD Overview](images/Rentals_PNG.png)
+**Click for Detailed ERD (SVG)**: You can view a high-resolution, zoomable version of the ERD by clicking [here](images/Rentals_SVG.svg).
+
 ---
 
 ## Features
@@ -101,9 +105,6 @@ Admins are responsible for maintaining the platform's integrity and user experie
 The application's data is structured within the `Rentals` schema, designed to support all the features and user roles described above.
 
 * **Entity-Relationship Diagram (ERD)**: The overall structure and relationships between entities are visualized in the ERD provided.
-      For a quick visual overview of the database structure:
-      ![RoomRental ERD Overview](images/Rentals_PNG.png)
-    * **Click for Detailed ERD (SVG)**: You can view a high-resolution, zoomable version of the ERD by clicking [here](images/Rentals_SVG.svg).
 * **Database Definition Language (DDL)**: The detailed table definitions, including columns, data types, primary keys, and foreign key constraints, are specified in the DDL script. This script sets up the `Rentals` schema and all its tables, including various lookup tables for maintaining data consistency (e.g., `PropertyType`, `RentalType`, `LayoutType`, `AvailabilityStatus`, `PreferredTenants`, `AmenityCategory`, `MessageStatus`, `VisitRequestStatus`, `BookingRequestStatus`, `PaymentStatus`, `ReportStatus`, `RoleName`, `SubscriptionUserType`).
 
 You can visualize the database schema using the dbdiagram.io code provided previously. Simply paste the code into [dbdiagram.io](https://dbdiagram.io/home) to generate an interactive diagram.
