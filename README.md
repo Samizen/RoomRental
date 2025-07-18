@@ -107,11 +107,54 @@ The application's data is structured within the `Rentals` schema, designed to su
 * **Entity-Relationship Diagram (ERD)**: The overall structure and relationships between entities are visualized in the ERD provided.
 * **Database Definition Language (DDL)**: The detailed table definitions, including columns, data types, primary keys, and foreign key constraints, are specified in the DDL script. This script sets up the `Rentals` schema and all its tables, including various lookup tables for maintaining data consistency (e.g., `PropertyType`, `RentalType`, `LayoutType`, `AvailabilityStatus`, `PreferredTenants`, `AmenityCategory`, `MessageStatus`, `VisitRequestStatus`, `BookingRequestStatus`, `PaymentStatus`, `ReportStatus`, `RoleName`, `SubscriptionUserType`).
 
-You can visualize the database schema using the dbdiagram.io code provided previously. Simply paste the code into [dbdiagram.io](https://dbdiagram.io/home) to generate an interactive diagram.
+* The application's data is meticulously structured within the `Rentals` schema, designed to support all the features and user roles. This database design adheres to **Third Normal Form (3NF)**, ensuring data integrity, minimizing redundancy, and optimizing for efficient data management.
+
+### Key Database Components
+
+The schema is logically organized into several areas, each addressing a core functional aspect of the RoomRental platform:
+
+#### 1. Core User & Identity Management
+* **`User`**: The central table for all application users (Tenants, Landlords, Admins). It stores fundamental user details like `FirstName`, `LastName`, `Email` (unique), `PhoneNumber`, `PasswordHash`, and `ProfileImageUrl`. Crucially, it includes `IsEmailVerified`, `IsMobileVerified` (both `BIT` type for boolean flags), the newly added `WhatsAppNumber` (unique and nullable for WhatsApp-specific communication), and `IsWhatsAppVerified` (also `BIT`). `GoogleID` is present for direct Google authentication linkage. Timestamps `CreatedAt` and `UpdatedAt` (both `DATETIME2`) ensure precise tracking of user record lifecycles.
+* **`Tenant`**: Extends the `User` table for users acting as tenants, linking via `UserId`.
+* **`Landlord`**: Extends the `User` table for users acting as landlords, linking via `UserId`. It includes `IdentificationDocumentId`, an optional foreign key to `DocumentRegistration`, acknowledging the need for landlord identity verification.
+* **`DocumentRegistration`**: Manages identification documents uploaded by users (especially landlords). Stores `DocumentType`, `DocumentNumber`, `DocumentImageUrl`, `IsVerified` (BIT), and a `VerificationStatusId` (referencing `VerificationStatus` lookup) to track the state of document verification by admins.
+* **`Role` & `UserRole`**: Implements a flexible role-based access control system. `Role` defines different application roles (e.g., Tenant, Landlord, Admin), while `UserRole` is a junction table linking users to their assigned roles.
+
+#### 2. Property Listings & Amenities
+* **`Listing`**: Represents a property available for rent. It's rich with details like `Title`, `Description` (VARCHAR(MAX) for extensive details), `Price`, `Area`, `Location` (with `LocationLatitude` and `LocationLongitude` for precise mapping), `FloorNumber`, `BuildingAge`, `PropertyFacing`, `IsPetsAllowed`, `IsSmokingAllowed`, and an `IsActive` flag. It extensively uses foreign keys to various lookup tables for standardized property attributes (e.g., `PropertyTypeId`, `RentalTypeId`, `LayoutTypeId`, `AvailabilityStatusId`, `PreferredTenantId`). An `IsVerified` (BIT) column denotes admin-approved listings.
+* **`Amenity`**: Defines individual amenities (e.g., Wi-Fi, AC, Parking) with a `Name`, `Description`, and `CategoryId` (referencing `AmenityCategory` lookup) to group amenities.
+* **`ListingAmenity`**: A junction table (`ListingId`, `AmenityId` as composite PK) to establish many-to-many relationships between `Listing` and `Amenity`, allowing properties to have multiple amenities.
+* **`ListingMedia`**: Stores URLs for `MediaUrl` (images, videos) associated with a `Listing`, along with `MediaType` (Image/Video).
+
+#### 3. Communication & Requests
+* **`Conversation`**: Manages chat instances between `Tenant` and `Landlord` for a specific `Listing`.
+* **`Message`**: Stores individual chat messages within a `Conversation`, including `SenderId`, `ReceiverId`, `Content`, `SentAt` (DATETIME2), and `MessageStatusId` (referencing `MessageStatus` lookup).
+* **`VisitRequest`**: Records requests from `Tenant` to `Landlord` for property visits, including `PreferredVisitDateTime`, `TenantRequestMessage`, `StatusId` (referencing `VisitRequestStatus` lookup), and `LandlordResponseMessage`.
+* **`BookingRequest`**: Manages formal booking requests for properties from `Tenant` to `Landlord`, capturing `RequestedRent`, `RequestedDuration`, and a `BookingRequestStatusId` (referencing `BookingRequestStatus` lookup).
+
+#### 4. Booking, Lease & Payments
+* **`LeaseAgreement`**: Stores details of executed lease agreements between `Tenant` and `Landlord` for a `Listing`, including `StartDate`, `EndDate`, `MonthlyRent`, `AgreementFileUrl`, and `IsActive` flag. Links directly to a `BookingRequestId`.
+* **`BookingPayment`**: Records initial payments made for a `BookingRequest`, detailing `Amount`, `PaymentStatusId` (referencing `PaymentStatus` lookup), `PaidAt`, and `PaymentReference`.
+* **`RentPayment`**: Tracks recurring monthly rent payments for a `LeaseAgreement`, including `Amount`, `TransactionRef`, `ForMonth`, `Notes`, `PaymentStatusId`, and `PaidAt`.
+
+#### 5. Subscriptions
+* **`Subscription`**: Defines different subscription plans available (e.g., Premium Tenant, Premium Landlord), including `Name`, `Description`, `Price`, `DurationDays`, `IsActive`, and `ForUserTypeId` (referencing `SubscriptionUserType` lookup).
+* **`TenantSubscription`**: Records a tenant's enrollment in a `Subscription` plan, tracking `StartDate`, `EndDate`, `Amount`, `PaymentStatusId`, and `IsActive` status.
+* **`LandlordSubscription`**: Similar to `TenantSubscription`, but for landlords.
+
+#### 6. Reporting
+* **`ReportListing`**: Stores reports made by users against specific `Listing` instances, including `Reason`, `StatusId` (referencing `ReportStatus` lookup), `ReportedBy` (UserId), and `ReviewedBy` (UserId).
+* **`ReportUser`**: Stores reports made by users against other `User` accounts, including `ReportedUserId`, `ReportedByUserId`, `Reason`, `StatusId`, and `AdminNotes`.
+
+#### 7. Lookup Tables for Normalized Data
+A crucial aspect of this 3NF design is the extensive use of dedicated lookup tables (e.g., `PropertyType`, `RentalType`, `AvailabilityStatus`, `AmenityCategory`, `PaymentStatus`, `RoleName`, `SubscriptionUserType`, `ReportStatus`, `VerificationStatus`, `VisitRequestStatus`, `BookingRequestStatus`, `MessageStatus`). These tables:
+* **Enforce Data Integrity**: By using foreign keys, they ensure that only valid, predefined values are entered into related transaction tables.
+* **Improve Maintainability**: Adding, modifying, or deactivating options (e.g., a new `PropertyType`) becomes a simple data change in a lookup table, rather than requiring schema alterations and `CHECK` constraint updates across multiple tables.
+* **Enhance Readability**: Queries become more explicit by joining to descriptive lookup tables rather than relying on cryptic codes or hardcoded strings.
 
 ---
 
-## 🚀 Usage (Conceptual)
+## Usage (Conceptual)
 
 Once the application is set up, users can:
 
