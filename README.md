@@ -9,6 +9,9 @@ For a quick visual overview of the database structure:
 **Click for Detailed ERD (SVG)**: You can view a high-resolution, zoomable version of the ERD by clicking [here](images/Rentals_SVG.svg).
 
 ---
+## Initial Requirement
+The application idea started from this requirement.
+[room rental requirement](https://docs.google.com/document/d/1MOTUB5izBSF6vpAcCx7EjcHz5l1TrZIj55BFvSKjAy0/edit?usp=sharing)
 
 ## Features
 
