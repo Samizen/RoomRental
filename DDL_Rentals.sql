@@ -556,3 +556,56 @@ CREATE TABLE Rentals.LandlordSubscription (
     CONSTRAINT FK_LandlordSubscription_PaymentStatus FOREIGN KEY (PaymentStatusId)
         REFERENCES Rentals.PaymentStatus(PaymentStatusId)
 );
+
+-- Add Movers Requirement to the database
+
+IF OBJECT_ID('Rentals.Mover', 'U') IS NOT NULL
+    DROP TABLE Rentals.Mover;
+CREATE TABLE Rentals.Mover (
+    MoverId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CompanyName VARCHAR(255) NOT NULL UNIQUE,          
+    ContactPerson VARCHAR(255) NULL,                   
+    ContactEmail VARCHAR(255) NULL UNIQUE,             
+    ContactPhone VARCHAR(35) NULL UNIQUE,              
+    AddressText VARCHAR(100) NOT NULL,
+    AddressLatitude DECIMAL(11, 8) NOT NULL,
+    AddressLongitude DECIMAL(11, 8) NOT NULL,
+    Description VARCHAR(MAX) NULL,                                               
+    IsVerified BIT NOT NULL DEFAULT 0,                 
+    IsActive BIT NOT NULL DEFAULT 1,                   
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+-- Lookup Table for MovingRequest Table
+
+IF OBJECT_ID('Rentals.MovingRequestStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.MovingRequestStatus;
+CREATE TABLE Rentals.MovingRequestStatus (
+    MovingRequestStatusId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    StatusName VARCHAR(50) NOT NULL UNIQUE -- e.g., 'Pending', 'Accepted', 'Scheduled', 'Completed', 'Cancelled'
+);
+
+IF OBJECT_ID('Rentals.MovingRequest', 'U') IS NOT NULL
+    DROP TABLE Rentals.MovingRequest;
+CREATE TABLE Rentals.MovingRequest (
+    MovingRequestId INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    LeaseAgreementId INT NOT NULL, -- LeaseAgreement confirms the booking                  
+    MoverId INT NOT NULL,                           
+    PickupAddress VARCHAR(255) NOT NULL,            
+    DestinationAddress VARCHAR(255) NOT NULL,       
+    RequestedDateTime DATETIME2 NOT NULL,           
+    Cost DECIMAL(10,2) NULL,                                 
+    RequestDetails VARCHAR(MAX) NULL,               
+    MovingRequestStatusId INT NOT NULL,             
+    Notes VARCHAR(MAX) NULL,                        
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+
+    CONSTRAINT FK_MovingRequest_LeaseAgreement FOREIGN KEY (LeaseAgreementId)
+        REFERENCES Rentals.LeaseAgreement(LeaseAgreementId),
+    CONSTRAINT FK_MovingRequest_Mover FOREIGN KEY (MoverId)
+        REFERENCES Rentals.Mover(MoverId),
+    CONSTRAINT FK_MovingRequest_Status FOREIGN KEY (MovingRequestStatusId)
+        REFERENCES Rentals.MovingRequestStatus(MovingRequestStatusId)
+);
