@@ -609,3 +609,168 @@ CREATE TABLE Rentals.MovingRequest (
     CONSTRAINT FK_MovingRequest_Status FOREIGN KEY (MovingRequestStatusId)
         REFERENCES Rentals.MovingRequestStatus(MovingRequestStatusId)
 );
+
+-- Adding Non-Clusterd Indexes to Foreign Keys 
+-- Create non-clustered indexes for Foreign Keys
+
+-- Rentals.Tenant
+CREATE NONCLUSTERED INDEX IX_Tenant_UserId
+ON Rentals.Tenant (UserId);
+
+-- Rentals.DocumentRegistration
+CREATE NONCLUSTERED INDEX IX_DocumentRegistration_UserId
+ON Rentals.DocumentRegistration (UserId);
+CREATE NONCLUSTERED INDEX IX_DocumentRegistration_VerifiedBy
+ON Rentals.DocumentRegistration (VerifiedBy);
+CREATE NONCLUSTERED INDEX IX_DocumentRegistration_VerificationStatusId
+ON Rentals.DocumentRegistration (VerificationStatusId);
+
+-- Rentals.Landlord
+CREATE NONCLUSTERED INDEX IX_Landlord_UserId
+ON Rentals.Landlord (UserId);
+CREATE NONCLUSTERED INDEX IX_Landlord_IdentificationDocumentId
+ON Rentals.Landlord (IdentificationDocumentId);
+
+-- Rentals.Listing
+CREATE NONCLUSTERED INDEX IX_Listing_LandlordId
+ON Rentals.Listing (LandlordId);
+CREATE NONCLUSTERED INDEX IX_Listing_PropertyTypeId
+ON Rentals.Listing (PropertyTypeId);
+CREATE NONCLUSTERED INDEX IX_Listing_RentalTypeId
+ON Rentals.Listing (RentalTypeId);
+CREATE NONCLUSTERED INDEX IX_Listing_LayoutTypeId
+ON Rentals.Listing (LayoutTypeId);
+CREATE NONCLUSTERED INDEX IX_Listing_AvailabilityStatusId
+ON Rentals.Listing (AvailabilityStatusId);
+CREATE NONCLUSTERED INDEX IX_Listing_PreferredTenantId
+ON Rentals.Listing (PreferredTenantId);
+
+-- Rentals.Amenity
+CREATE NONCLUSTERED INDEX IX_Amenity_CategoryId
+ON Rentals.Amenity (CategoryId);
+
+-- Rentals.ListingAmenity (Composite PK on (ListingId, AmenityId), so ListingId is covered. Index AmenityId for lookups by amenity alone)
+CREATE NONCLUSTERED INDEX IX_ListingAmenity_AmenityId
+ON Rentals.ListingAmenity (AmenityId);
+
+-- Rentals.Conversation
+CREATE NONCLUSTERED INDEX IX_Conversation_TenantId
+ON Rentals.Conversation (TenantId);
+CREATE NONCLUSTERED INDEX IX_Conversation_LandlordId
+ON Rentals.Conversation (LandlordId);
+CREATE NONCLUSTERED INDEX IX_Conversation_ListingId
+ON Rentals.Conversation (ListingId);
+
+-- Rentals.Message
+CREATE NONCLUSTERED INDEX IX_Message_ConversationId
+ON Rentals.Message (ConversationId);
+CREATE NONCLUSTERED INDEX IX_Message_SenderId
+ON Rentals.Message (SenderId);
+CREATE NONCLUSTERED INDEX IX_Message_ReceiverId
+ON Rentals.Message (ReceiverId);
+CREATE NONCLUSTERED INDEX IX_Message_MessageStatusId
+ON Rentals.Message (MessageStatusId);
+
+-- Rentals.VisitRequest
+CREATE NONCLUSTERED INDEX IX_VisitRequest_TenantId
+ON Rentals.VisitRequest (TenantId);
+CREATE NONCLUSTERED INDEX IX_VisitRequest_ListingId
+ON Rentals.VisitRequest (ListingId);
+CREATE NONCLUSTERED INDEX IX_VisitRequest_StatusId
+ON Rentals.VisitRequest (StatusId);
+
+-- Rentals.BookingRequest
+CREATE NONCLUSTERED INDEX IX_BookingRequest_TenantId
+ON Rentals.BookingRequest (TenantId);
+CREATE NONCLUSTERED INDEX IX_BookingRequest_ListingId
+ON Rentals.BookingRequest (ListingId);
+CREATE NONCLUSTERED INDEX IX_BookingRequest_BookingRequestStatusId
+ON Rentals.BookingRequest (BookingRequestStatusId);
+
+-- Rentals.LeaseAgreement
+CREATE NONCLUSTERED INDEX IX_LeaseAgreement_TenantId
+ON Rentals.LeaseAgreement (TenantId);
+CREATE NONCLUSTERED INDEX IX_LeaseAgreement_LandlordId
+ON Rentals.LeaseAgreement (LandlordId);
+CREATE NONCLUSTERED INDEX IX_LeaseAgreement_ListingId
+ON Rentals.LeaseAgreement (ListingId);
+CREATE NONCLUSTERED INDEX IX_LeaseAgreement_BookingRequestId
+ON Rentals.LeaseAgreement (BookingRequestId);
+
+-- Rentals.BookingPayment
+CREATE NONCLUSTERED INDEX IX_BookingPayment_BookingRequestId
+ON Rentals.BookingPayment (BookingRequestId);
+CREATE NONCLUSTERED INDEX IX_BookingPayment_TenantId
+ON Rentals.BookingPayment (TenantId);
+CREATE NONCLUSTERED INDEX IX_BookingPayment_PaymentStatusId
+ON Rentals.BookingPayment (PaymentStatusId);
+
+-- Rentals.RentPayment
+CREATE NONCLUSTERED INDEX IX_RentPayment_LeaseAgreementId
+ON Rentals.RentPayment (LeaseAgreementId);
+CREATE NONCLUSTERED INDEX IX_RentPayment_TenantId
+ON Rentals.RentPayment (TenantId);
+CREATE NONCLUSTERED INDEX IX_RentPayment_PaymentStatusId
+ON Rentals.RentPayment (PaymentStatusId);
+
+-- Rentals.Subscription
+CREATE NONCLUSTERED INDEX IX_Subscription_ForUserTypeId
+ON Rentals.Subscription (ForUserTypeId);
+
+-- Rentals.TenantSubscription
+CREATE NONCLUSTERED INDEX IX_TenantSubscription_TenantId
+ON Rentals.TenantSubscription (TenantId);
+CREATE NONCLUSTERED INDEX IX_TenantSubscription_SubscriptionId
+ON Rentals.TenantSubscription (SubscriptionId);
+CREATE NONCLUSTERED INDEX IX_TenantSubscription_PaymentStatusId
+ON Rentals.TenantSubscription (PaymentStatusId);
+
+-- Rentals.ReportListing
+CREATE NONCLUSTERED INDEX IX_ReportListing_ListingId
+ON Rentals.ReportListing (ListingId);
+CREATE NONCLUSTERED INDEX IX_ReportListing_StatusId
+ON Rentals.ReportListing (StatusId);
+CREATE NONCLUSTERED INDEX IX_ReportListing_ReviewedBy
+ON Rentals.ReportListing (ReviewedBy);
+CREATE NONCLUSTERED INDEX IX_ReportListing_ReportedBy
+ON Rentals.ReportListing (ReportedBy);
+
+-- Rentals.ReportUser
+CREATE NONCLUSTERED INDEX IX_ReportUser_ReportedUserId
+ON Rentals.ReportUser (ReportedUserId);
+CREATE NONCLUSTERED INDEX IX_ReportUser_ReportedByUserId
+ON Rentals.ReportUser (ReportedByUserId);
+CREATE NONCLUSTERED INDEX IX_ReportUser_StatusId
+ON Rentals.ReportUser (StatusId);
+
+-- Rentals.Role
+CREATE NONCLUSTERED INDEX IX_Role_RoleNameId
+ON Rentals.Role (RoleNameId);
+
+-- Rentals.UserRole (Composite PK on (UserId, RoleId). Index RoleId for lookups by role alone)
+CREATE NONCLUSTERED INDEX IX_UserRole_RoleId
+ON Rentals.UserRole (RoleId);
+
+-- Rentals.ListingMedia
+CREATE NONCLUSTERED INDEX IX_ListingMedia_ListingId
+ON Rentals.ListingMedia (ListingId);
+
+-- Rentals.SavedListing (Composite PK on (ListingId, TenantId). Index TenantId for lookups by tenant alone)
+CREATE NONCLUSTERED INDEX IX_SavedListing_TenantId
+ON Rentals.SavedListing (TenantId);
+
+-- Rentals.LandlordSubscription
+CREATE NONCLUSTERED INDEX IX_LandlordSubscription_LandlordId
+ON Rentals.LandlordSubscription (LandlordId);
+CREATE NONCLUSTERED INDEX IX_LandlordSubscription_SubscriptionId
+ON Rentals.LandlordSubscription (SubscriptionId);
+CREATE NONCLUSTERED INDEX IX_LandlordSubscription_PaymentStatusId
+ON Rentals.LandlordSubscription (PaymentStatusId);
+
+-- Rentals.MovingRequest
+CREATE NONCLUSTERED INDEX IX_MovingRequest_LeaseAgreementId
+ON Rentals.MovingRequest (LeaseAgreementId);
+CREATE NONCLUSTERED INDEX IX_MovingRequest_MoverId
+ON Rentals.MovingRequest (MoverId);
+CREATE NONCLUSTERED INDEX IX_MovingRequest_MovingRequestStatusId
+ON Rentals.MovingRequest (MovingRequestStatusId);
