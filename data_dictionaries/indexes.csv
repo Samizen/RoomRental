@@ -1,0 +1,118 @@
+﻿Amenity,IX_Amenity_CategoryId,Non-Unique,Non-Clustered,CategoryId ASC
+Amenity,PK__Amenity__842AF50B259C950E,Primary Key,Clustered,AmenityId ASC
+AmenityCategory,PK__AmenityC__C6FAF78E1BD6AEAD,Primary Key,Clustered,AmenityCategoryId ASC
+AmenityCategory,UQ__AmenityC__6F051CE5444896BD,Unique Constraint,Non-Clustered,AmenityCategoryName ASC
+AvailabilityStatus,PK__Availabi__611FF096F7225564,Primary Key,Clustered,AvailabilityStatusId ASC
+AvailabilityStatus,UQ__Availabi__B5A6D4A0195CE69F,Unique Constraint,Non-Clustered,AvailabilityStatusName ASC
+BookingPayment,IX_BookingPayment_BookingRequestId,Non-Unique,Non-Clustered,BookingRequestId ASC
+BookingPayment,IX_BookingPayment_PaymentStatusId,Non-Unique,Non-Clustered,PaymentStatusId ASC
+BookingPayment,IX_BookingPayment_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+BookingPayment,PK__BookingP__B9EFEDB36D0D6A92,Primary Key,Clustered,BookingPaymentId ASC
+BookingRequest,IX_BookingRequest_BookingRequestStatusId,Non-Unique,Non-Clustered,BookingRequestStatusId ASC
+BookingRequest,IX_BookingRequest_ListingId,Non-Unique,Non-Clustered,ListingId ASC
+BookingRequest,IX_BookingRequest_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+BookingRequest,PK__BookingR__68EDFCC73B2ECB17,Primary Key,Clustered,BookingRequestId ASC
+BookingRequestStatus,PK__BookingR__13CB1244B475F592,Primary Key,Clustered,BookingRequestStatusId ASC
+BookingRequestStatus,UQ__BookingR__7B702CEE230A8870,Unique Constraint,Non-Clustered,BookingRequestStatusName ASC
+Conversation,IX_Conversation_LandlordId,Non-Unique,Non-Clustered,LandlordId ASC
+Conversation,IX_Conversation_ListingId,Non-Unique,Non-Clustered,ListingId ASC
+Conversation,IX_Conversation_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+Conversation,PK__Conversa__C050D8776F63CB96,Primary Key,Clustered,ConversationId ASC
+DocumentRegistration,IX_DocumentRegistration_UserId,Non-Unique,Non-Clustered,UserId ASC
+DocumentRegistration,IX_DocumentRegistration_VerificationStatusId,Non-Unique,Non-Clustered,VerificationStatusId ASC
+DocumentRegistration,IX_DocumentRegistration_VerifiedBy,Non-Unique,Non-Clustered,VerifiedBy ASC
+DocumentRegistration,PK__Document__1ABEEF0F58F7B64C,Primary Key,Clustered,DocumentId ASC
+Landlord,IX_Landlord_IdentificationDocumentId,Non-Unique,Non-Clustered,IdentificationDocumentId ASC
+Landlord,IX_Landlord_UserId,Non-Unique,Non-Clustered,UserId ASC
+Landlord,PK__Landlord__8EC79DA3110B5B4E,Primary Key,Clustered,LandlordId ASC
+LandlordSubscription,IX_LandlordSubscription_LandlordId,Non-Unique,Non-Clustered,LandlordId ASC
+LandlordSubscription,IX_LandlordSubscription_PaymentStatusId,Non-Unique,Non-Clustered,PaymentStatusId ASC
+LandlordSubscription,IX_LandlordSubscription_SubscriptionId,Non-Unique,Non-Clustered,SubscriptionId ASC
+LandlordSubscription,PK__Landlord__C941273B50E561A6,Primary Key,Clustered,LandlordSubscriptionId ASC
+LayoutType,PK__LayoutTy__A488931D99AAD456,Primary Key,Clustered,LayoutTypeId ASC
+LayoutType,UQ__LayoutTy__30D021EC014C2374,Unique Constraint,Non-Clustered,LayoutTypeName ASC
+LeaseAgreement,IX_LeaseAgreement_BookingRequestId,Non-Unique,Non-Clustered,BookingRequestId ASC
+LeaseAgreement,IX_LeaseAgreement_LandlordId,Non-Unique,Non-Clustered,LandlordId ASC
+LeaseAgreement,IX_LeaseAgreement_ListingId,Non-Unique,Non-Clustered,ListingId ASC
+LeaseAgreement,IX_LeaseAgreement_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+LeaseAgreement,PK__LeaseAgr__3B8E48A0A50650DC,Primary Key,Clustered,LeaseAgreementId ASC
+Listing,IX_Listing_AvailabilityStatusId,Non-Unique,Non-Clustered,AvailabilityStatusId ASC
+Listing,IX_Listing_LandlordId,Non-Unique,Non-Clustered,LandlordId ASC
+Listing,IX_Listing_LayoutTypeId,Non-Unique,Non-Clustered,LayoutTypeId ASC
+Listing,IX_Listing_PreferredTenantId,Non-Unique,Non-Clustered,PreferredTenantId ASC
+Listing,IX_Listing_PropertyTypeId,Non-Unique,Non-Clustered,PropertyTypeId ASC
+Listing,IX_Listing_RentalTypeId,Non-Unique,Non-Clustered,RentalTypeId ASC
+Listing,PK__Listing__BF3EBED0B8206267,Primary Key,Clustered,ListingId ASC
+ListingAmenity,IX_ListingAmenity_AmenityId,Non-Unique,Non-Clustered,AmenityId ASC
+ListingAmenity,PK__ListingA__177C1180EA9F8F92,Primary Key,Clustered,"ListingId ASC, AmenityId ASC"
+ListingMedia,IX_ListingMedia_ListingId,Non-Unique,Non-Clustered,ListingId ASC
+ListingMedia,PK__ListingM__B27219656413E63E,Primary Key,Clustered,ListingMediaId ASC
+Message,IX_Message_ConversationId,Non-Unique,Non-Clustered,ConversationId ASC
+Message,IX_Message_MessageStatusId,Non-Unique,Non-Clustered,MessageStatusId ASC
+Message,IX_Message_ReceiverId,Non-Unique,Non-Clustered,ReceiverId ASC
+Message,IX_Message_SenderId,Non-Unique,Non-Clustered,SenderId ASC
+Message,PK__Message__C87C0C9CF9082C8A,Primary Key,Clustered,MessageId ASC
+MessageStatus,PK__MessageS__8FBEE6D489F3E905,Primary Key,Clustered,MessageStatusId ASC
+MessageStatus,UQ__MessageS__824230212926E788,Unique Constraint,Non-Clustered,MessageStatusName ASC
+Mover,PK__Mover__A6AA178B5CAB03D4,Primary Key,Clustered,MoverId ASC
+Mover,UQ__Mover__5AE1ED84342FD11E,Unique Constraint,Non-Clustered,ContactPhone ASC
+Mover,UQ__Mover__9BCE05DCF0D6F859,Unique Constraint,Non-Clustered,CompanyName ASC
+Mover,UQ__Mover__FFA796CD89E8F061,Unique Constraint,Non-Clustered,ContactEmail ASC
+MovingRequest,IX_MovingRequest_LeaseAgreementId,Non-Unique,Non-Clustered,LeaseAgreementId ASC
+MovingRequest,IX_MovingRequest_MoverId,Non-Unique,Non-Clustered,MoverId ASC
+MovingRequest,IX_MovingRequest_MovingRequestStatusId,Non-Unique,Non-Clustered,MovingRequestStatusId ASC
+MovingRequest,PK__MovingRe__046BA56FFB11E82E,Primary Key,Clustered,MovingRequestId ASC
+MovingRequestStatus,PK__MovingRe__CAEE4997EB27FB25,Primary Key,Clustered,MovingRequestStatusId ASC
+MovingRequestStatus,UQ__MovingRe__05E7698ACD1441CC,Unique Constraint,Non-Clustered,StatusName ASC
+PaymentStatus,PK__PaymentS__34F8AC3F1E360155,Primary Key,Clustered,PaymentStatusId ASC
+PaymentStatus,UQ__PaymentS__BBAC58DBD6DE873C,Unique Constraint,Non-Clustered,PaymentStatusName ASC
+PreferredTenants,PK__Preferre__A9607165BF8B5BAD,Primary Key,Clustered,PreferredTenantId ASC
+PreferredTenants,UQ__Preferre__A75BC51BF5D6972F,Unique Constraint,Non-Clustered,PreferredTenantName ASC
+PropertyType,PK__Property__BDE14DB4B0BFE8D6,Primary Key,Clustered,PropertyTypeId ASC
+PropertyType,UQ__Property__AEA0AA97AA713EA3,Unique Constraint,Non-Clustered,PropertyTypeName ASC
+RentalType,PK__RentalTy__DECD55EEBC957944,Primary Key,Clustered,RentalTypeId ASC
+RentalType,UQ__RentalTy__FE6AA6AD5660648D,Unique Constraint,Non-Clustered,RentalTypeName ASC
+RentPayment,IX_RentPayment_LeaseAgreementId,Non-Unique,Non-Clustered,LeaseAgreementId ASC
+RentPayment,IX_RentPayment_PaymentStatusId,Non-Unique,Non-Clustered,PaymentStatusId ASC
+RentPayment,IX_RentPayment_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+RentPayment,PK__RentPaym__1578A942D375F423,Primary Key,Clustered,RentPaymentId ASC
+ReportListing,IX_ReportListing_ListingId,Non-Unique,Non-Clustered,ListingId ASC
+ReportListing,IX_ReportListing_ReportedBy,Non-Unique,Non-Clustered,ReportedBy ASC
+ReportListing,IX_ReportListing_ReviewedBy,Non-Unique,Non-Clustered,ReviewedBy ASC
+ReportListing,IX_ReportListing_StatusId,Non-Unique,Non-Clustered,StatusId ASC
+ReportListing,PK__ReportLi__BB636315B35CFB1F,Primary Key,Clustered,ReportListingID ASC
+ReportStatus,PK__ReportSt__9683C1069490CB4E,Primary Key,Clustered,ReportStatusId ASC
+ReportStatus,UQ__ReportSt__D7CD012104FACB8F,Unique Constraint,Non-Clustered,ReportStatusName ASC
+ReportUser,IX_ReportUser_ReportedByUserId,Non-Unique,Non-Clustered,ReportedByUserId ASC
+ReportUser,IX_ReportUser_ReportedUserId,Non-Unique,Non-Clustered,ReportedUserId ASC
+ReportUser,IX_ReportUser_StatusId,Non-Unique,Non-Clustered,StatusId ASC
+ReportUser,PK__ReportUs__94F3DB8B4A2A0736,Primary Key,Clustered,ReportUserId ASC
+Role,IX_Role_RoleNameId,Non-Unique,Non-Clustered,RoleNameId ASC
+Role,PK__Role__8AFACE1A6901D85E,Primary Key,Clustered,RoleId ASC
+Role,UQ__Role__CB8C7C358A1A8743,Unique Constraint,Non-Clustered,RoleNameId ASC
+RoleName,PK__RoleName__CB8C7C34D5AA8FE0,Primary Key,Clustered,RoleNameId ASC
+RoleName,UQ__RoleName__012D1EAE59446E62,Unique Constraint,Non-Clustered,RoleNameValue ASC
+SavedListing,IX_SavedListing_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+SavedListing,PK_SavedListing,Primary Key,Clustered,"ListingId ASC, TenantId ASC"
+Subscription,IX_Subscription_ForUserTypeId,Non-Unique,Non-Clustered,ForUserTypeId ASC
+Subscription,PK__Subscrip__9A2B249DA75EA403,Primary Key,Clustered,SubscriptionId ASC
+SubscriptionUserType,PK__Subscrip__430E27C37AB53C04,Primary Key,Clustered,SubscriptionUserTypeId ASC
+SubscriptionUserType,UQ__Subscrip__9262CB7156ED98C4,Unique Constraint,Non-Clustered,UserTypeName ASC
+Tenant,IX_Tenant_UserId,Non-Unique,Non-Clustered,UserId ASC
+Tenant,PK__Tenant__2E9B47E1C53A815E,Primary Key,Clustered,TenantId ASC
+TenantSubscription,IX_TenantSubscription_PaymentStatusId,Non-Unique,Non-Clustered,PaymentStatusId ASC
+TenantSubscription,IX_TenantSubscription_SubscriptionId,Non-Unique,Non-Clustered,SubscriptionId ASC
+TenantSubscription,IX_TenantSubscription_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+TenantSubscription,PK__TenantSu__EBF473E41DEE8275,Primary Key,Clustered,TenantSubscriptionId ASC
+User,PK__User__1788CC4CD1F2FA58,Primary Key,Clustered,UserId ASC
+User,UQ__User__A9D1053434453608,Unique Constraint,Non-Clustered,Email ASC
+UserRole,IX_UserRole_RoleId,Non-Unique,Non-Clustered,RoleId ASC
+UserRole,PK_UserRole,Primary Key,Clustered,"UserId ASC, RoleId ASC"
+VerificationStatus,PK__Verifica__AA0B29E940201E0F,Primary Key,Clustered,VerificationStatusId ASC
+VerificationStatus,UQ__Verifica__C18BE6AD231F7856,Unique Constraint,Non-Clustered,VerificationStatusName ASC
+VisitRequest,IX_VisitRequest_ListingId,Non-Unique,Non-Clustered,ListingId ASC
+VisitRequest,IX_VisitRequest_StatusId,Non-Unique,Non-Clustered,StatusId ASC
+VisitRequest,IX_VisitRequest_TenantId,Non-Unique,Non-Clustered,TenantId ASC
+VisitRequest,PK__VisitReq__C4446A83A83618C4,Primary Key,Clustered,VisitRequestId ASC
+VisitRequestStatus,PK__VisitReq__9551A8AE4344F648,Primary Key,Clustered,VisitRequestStatusId ASC
+VisitRequestStatus,UQ__VisitReq__8D934B77E8B3DCF6,Unique Constraint,Non-Clustered,VisitRequestStatusName ASC
