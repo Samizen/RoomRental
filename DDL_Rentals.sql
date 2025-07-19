@@ -1,73 +1,114 @@
-CREATE SCHEMA Rentals;
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'Rentals')
+BEGIN
+    EXEC('CREATE SCHEMA Rentals;');
+END
 GO
 
 -- Lookup tables:
-
+IF OBJECT_ID('Rentals.PropertyType', 'U') IS NOT NULL
+    DROP TABLE Rentals.PropertyType;
 CREATE TABLE Rentals.PropertyType (
     PropertyTypeId INT IDENTITY(1,1) PRIMARY KEY,
     PropertyTypeName VARCHAR(50) NOT NULL UNIQUE
 );
 
+IF OBJECT_ID('Rentals.RentalType', 'U') IS NOT NULL
+    DROP TABLE Rentals.RentalType;
 CREATE TABLE Rentals.RentalType (
     RentalTypeId INT IDENTITY(1,1) PRIMARY KEY,
     RentalTypeName VARCHAR(50) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.VerificationStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.VerificationStatus;
 CREATE TABLE Rentals.VerificationStatus (
     VerificationStatusId INT IDENTITY(1,1) PRIMARY KEY,
     VerificationStatusName VARCHAR(20) NOT NULL UNIQUE
 );
 
+IF OBJECT_ID('Rentals.LayoutType', 'U') IS NOT NULL
+    DROP TABLE Rentals.LayoutType;
 CREATE TABLE Rentals.LayoutType (
     LayoutTypeId INT IDENTITY(1,1) PRIMARY KEY,
     LayoutTypeName VARCHAR(50) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.AvailabilityStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.AvailabilityStatus;
 CREATE TABLE Rentals.AvailabilityStatus (
     AvailabilityStatusId INT IDENTITY(1,1) PRIMARY KEY,
     AvailabilityStatusName VARCHAR(50) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.PreferredTenants', 'U') IS NOT NULL
+    DROP TABLE Rentals.PreferredTenants;
 CREATE TABLE Rentals.PreferredTenants (
     PreferredTenantId INT IDENTITY(1,1) PRIMARY KEY,
     PreferredTenantName VARCHAR(50) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.AmenityCategory', 'U') IS NOT NULL
+    DROP TABLE Rentals.AmenityCategory;
 CREATE TABLE Rentals.AmenityCategory (
     AmenityCategoryId INT IDENTITY(1,1) PRIMARY KEY,
     AmenityCategoryName VARCHAR(50) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.MessageStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.MessageStatus;
 CREATE TABLE Rentals.MessageStatus (
     MessageStatusId INT IDENTITY(1,1) PRIMARY KEY,
     MessageStatusName VARCHAR(20) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.VisitRequestStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.VisitRequestStatus;
 CREATE TABLE Rentals.VisitRequestStatus (
     VisitRequestStatusId INT IDENTITY(1,1) PRIMARY KEY,
     VisitRequestStatusName VARCHAR(20) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.BookingRequestStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.BookingRequestStatus;
 CREATE TABLE Rentals.BookingRequestStatus (
     BookingRequestStatusId INT IDENTITY(1,1) PRIMARY KEY,
     BookingRequestStatusName VARCHAR(20) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.PaymentStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.PaymentStatus;
 CREATE TABLE Rentals.PaymentStatus (
     PaymentStatusId INT IDENTITY(1,1) PRIMARY KEY,
     PaymentStatusName VARCHAR(10) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.ReportStatus', 'U') IS NOT NULL
+    DROP TABLE Rentals.ReportStatus;
 CREATE TABLE Rentals.ReportStatus (
     ReportStatusId INT IDENTITY(1,1) PRIMARY KEY,
     ReportStatusName VARCHAR(20) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.RoleName', 'U') IS NOT NULL
+    DROP TABLE Rentals.RoleName;
 CREATE TABLE Rentals.RoleName (
     RoleNameId INT IDENTITY(1,1) PRIMARY KEY,
     RoleNameValue VARCHAR(45) NOT NULL UNIQUE
 );
 
+
+IF OBJECT_ID('Rentals.SubscriptionUserType', 'U') IS NOT NULL
+    DROP TABLE Rentals.SubscriptionUserType;
 CREATE TABLE Rentals.SubscriptionUserType (
     SubscriptionUserTypeId INT IDENTITY(1,1) PRIMARY KEY,
     UserTypeName VARCHAR(45) NOT NULL UNIQUE
@@ -75,6 +116,8 @@ CREATE TABLE Rentals.SubscriptionUserType (
 
 -- Main tables
 
+IF OBJECT_ID('Rentals.[User]', 'U') IS NOT NULL
+    DROP TABLE Rentals.[User];
 CREATE TABLE Rentals.[User] (
     UserId INT IDENTITY(1,1) PRIMARY KEY,
     FirstName VARCHAR(255) NOT NULL,
@@ -93,6 +136,8 @@ CREATE TABLE Rentals.[User] (
     UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
+IF OBJECT_ID('Rentals.Tenant', 'U') IS NOT NULL
+    DROP TABLE Rentals.Tenant;
 CREATE TABLE Rentals.Tenant (
     TenantId INT IDENTITY(1,1) PRIMARY KEY,
     UserId INT NOT NULL,
@@ -102,6 +147,8 @@ CREATE TABLE Rentals.Tenant (
         REFERENCES Rentals.[User](UserId)
 );
 
+IF OBJECT_ID('Rentals.DocumentRegistration', 'U') IS NOT NULL
+    DROP TABLE Rentals.DocumentRegistration;
 CREATE TABLE Rentals.DocumentRegistration (
     DocumentId INT IDENTITY(1,1) PRIMARY KEY,
     UserId INT NOT NULL,
@@ -121,7 +168,8 @@ CREATE TABLE Rentals.DocumentRegistration (
         REFERENCES Rentals.VerificationStatus(VerificationStatusId)
 );
 
-
+IF OBJECT_ID('Rentals.Landlord', 'U') IS NOT NULL
+    DROP TABLE Rentals.Landlord;
 CREATE TABLE Rentals.Landlord (
     LandlordId INT IDENTITY(1,1) PRIMARY KEY,
     UserId INT NOT NULL,
@@ -134,6 +182,9 @@ CREATE TABLE Rentals.Landlord (
         REFERENCES Rentals.DocumentRegistration(DocumentId)
 );
 
+
+IF OBJECT_ID('Rentals.Listing', 'U') IS NOT NULL
+    DROP TABLE Rentals.Listing;
 CREATE TABLE Rentals.Listing (
     ListingId INT IDENTITY(1,1) PRIMARY KEY,
     LandlordId INT NOT NULL,
@@ -170,6 +221,8 @@ CREATE TABLE Rentals.Listing (
         REFERENCES Rentals.PreferredTenants(PreferredTenantId)
 );
 
+IF OBJECT_ID('Rentals.Amenity', 'U') IS NOT NULL
+    DROP TABLE Rentals.Amenity;
 CREATE TABLE Rentals.Amenity (
     AmenityId INT IDENTITY(1,1) PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -179,6 +232,9 @@ CREATE TABLE Rentals.Amenity (
         REFERENCES Rentals.AmenityCategory(AmenityCategoryId)
 );
 
+
+IF OBJECT_ID('Rentals.ListingAmenity', 'U') IS NOT NULL
+    DROP TABLE Rentals.ListingAmenity;
 CREATE TABLE Rentals.ListingAmenity (
     ListingId INT NOT NULL,
     AmenityId INT NOT NULL,
@@ -189,6 +245,9 @@ CREATE TABLE Rentals.ListingAmenity (
         REFERENCES Rentals.Amenity(AmenityId)
 );
 
+
+IF OBJECT_ID('Rentals.Conversation', 'U') IS NOT NULL
+    DROP TABLE Rentals.Conversation;
 CREATE TABLE Rentals.Conversation (
     ConversationId INT IDENTITY(1,1) PRIMARY KEY,
     TenantId INT NOT NULL,
@@ -205,6 +264,9 @@ CREATE TABLE Rentals.Conversation (
         REFERENCES Rentals.Listing(ListingId)
 );
 
+
+IF OBJECT_ID('Rentals.Message', 'U') IS NOT NULL
+    DROP TABLE Rentals.Message;
 CREATE TABLE Rentals.Message (
     MessageId INT IDENTITY(1,1) PRIMARY KEY,
     ConversationId INT NOT NULL,
@@ -223,6 +285,9 @@ CREATE TABLE Rentals.Message (
         REFERENCES Rentals.MessageStatus(MessageStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.VisitRequest', 'U') IS NOT NULL
+    DROP TABLE Rentals.VisitRequest;
 CREATE TABLE Rentals.VisitRequest (
     VisitRequestId INT IDENTITY(1,1) PRIMARY KEY,
     TenantId INT NOT NULL,
@@ -241,6 +306,9 @@ CREATE TABLE Rentals.VisitRequest (
         REFERENCES Rentals.VisitRequestStatus(VisitRequestStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.BookingRequest', 'U') IS NOT NULL
+    DROP TABLE Rentals.BookingRequest;
 CREATE TABLE Rentals.BookingRequest (
     BookingRequestId INT IDENTITY(1,1) PRIMARY KEY,
     TenantId INT NOT NULL,
@@ -260,6 +328,9 @@ CREATE TABLE Rentals.BookingRequest (
         REFERENCES Rentals.BookingRequestStatus(BookingRequestStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.LeaseAgreement', 'U') IS NOT NULL
+    DROP TABLE Rentals.LeaseAgreement;
 CREATE TABLE Rentals.LeaseAgreement (
     LeaseAgreementId INT IDENTITY(1,1) PRIMARY KEY,
     TenantId INT NOT NULL,
@@ -283,6 +354,9 @@ CREATE TABLE Rentals.LeaseAgreement (
         REFERENCES Rentals.BookingRequest(BookingRequestId)
 );
 
+
+IF OBJECT_ID('Rentals.BookingPayment', 'U') IS NOT NULL
+    DROP TABLE Rentals.BookingPayment;
 CREATE TABLE Rentals.BookingPayment (
     BookingPaymentId INT IDENTITY(1,1) PRIMARY KEY,
     BookingRequestId INT NOT NULL,
@@ -301,6 +375,9 @@ CREATE TABLE Rentals.BookingPayment (
         REFERENCES Rentals.PaymentStatus(PaymentStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.RentPayment', 'U') IS NOT NULL
+    DROP TABLE Rentals.RentPayment;
 CREATE TABLE Rentals.RentPayment (
     RentPaymentId INT IDENTITY(1,1) PRIMARY KEY,
     LeaseAgreementId INT NOT NULL,
@@ -321,6 +398,9 @@ CREATE TABLE Rentals.RentPayment (
         REFERENCES Rentals.PaymentStatus(PaymentStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.Subscription', 'U') IS NOT NULL
+    DROP TABLE Rentals.Subscription;
 CREATE TABLE Rentals.Subscription (
     SubscriptionId INT IDENTITY(1,1) PRIMARY KEY,
     ForUserTypeId INT NOT NULL,
@@ -335,6 +415,9 @@ CREATE TABLE Rentals.Subscription (
         REFERENCES Rentals.SubscriptionUserType(SubscriptionUserTypeId)
 );
 
+
+IF OBJECT_ID('Rentals.TenantSubscription', 'U') IS NOT NULL
+    DROP TABLE Rentals.TenantSubscription;
 CREATE TABLE Rentals.TenantSubscription (
     TenantSubscriptionId INT IDENTITY(1,1) PRIMARY KEY,
     TenantId INT NOT NULL,
@@ -356,6 +439,9 @@ CREATE TABLE Rentals.TenantSubscription (
         REFERENCES Rentals.PaymentStatus(PaymentStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.ReportListing', 'U') IS NOT NULL
+    DROP TABLE Rentals.ReportListing;
 CREATE TABLE Rentals.ReportListing (
     ReportListingID INT IDENTITY(1,1) PRIMARY KEY,
     ListingId INT NOT NULL,
@@ -375,6 +461,9 @@ CREATE TABLE Rentals.ReportListing (
         REFERENCES Rentals.ReportStatus(ReportStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.ReportUser', 'U') IS NOT NULL
+    DROP TABLE Rentals.ReportUser;
 CREATE TABLE Rentals.ReportUser (
     ReportUserId INT IDENTITY(1,1) PRIMARY KEY,
     ReportedUserId INT NOT NULL,
@@ -392,6 +481,9 @@ CREATE TABLE Rentals.ReportUser (
         REFERENCES Rentals.ReportStatus(ReportStatusId)
 );
 
+
+IF OBJECT_ID('Rentals.Role', 'U') IS NOT NULL
+    DROP TABLE Rentals.Role;
 CREATE TABLE Rentals.Role (
     RoleId INT IDENTITY(1,1) PRIMARY KEY,
     RoleNameId INT NOT NULL UNIQUE,
@@ -400,6 +492,9 @@ CREATE TABLE Rentals.Role (
         REFERENCES Rentals.RoleName(RoleNameId)
 );
 
+
+IF OBJECT_ID('Rentals.UserRole', 'U') IS NOT NULL
+    DROP TABLE Rentals.UserRole;
 CREATE TABLE Rentals.UserRole (
     UserId INT NOT NULL,
     RoleId INT NOT NULL,
@@ -411,6 +506,9 @@ CREATE TABLE Rentals.UserRole (
         REFERENCES Rentals.Role(RoleId)
 );
 
+
+IF OBJECT_ID('Rentals.ListingMedia', 'U') IS NOT NULL
+    DROP TABLE Rentals.ListingMedia;
 CREATE TABLE Rentals.ListingMedia (
     ListingMediaId INT IDENTITY(1,1) PRIMARY KEY,
     ListingId INT NOT NULL,
@@ -421,6 +519,9 @@ CREATE TABLE Rentals.ListingMedia (
         REFERENCES Rentals.Listing(ListingId)
 );
 
+
+IF OBJECT_ID('Rentals.SavedListing', 'U') IS NOT NULL
+    DROP TABLE Rentals.SavedListing;
 CREATE TABLE Rentals.SavedListing (
     ListingId INT NOT NULL,
     TenantId INT NOT NULL,
@@ -432,6 +533,9 @@ CREATE TABLE Rentals.SavedListing (
         REFERENCES Rentals.Tenant(TenantId)
 );
 
+
+IF OBJECT_ID('Rentals.LandlordSubscription', 'U') IS NOT NULL
+    DROP TABLE Rentals.LandlordSubscription;
 CREATE TABLE Rentals.LandlordSubscription (
     LandlordSubscriptionId INT IDENTITY(1,1) PRIMARY KEY,
     LandlordId INT NOT NULL,
